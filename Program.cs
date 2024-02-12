@@ -7,9 +7,9 @@ namespace chordMethod {
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
             Interface.GiveWelcomeMessage();
-            SortedDictionary<string, double> arguments = Interface.GiveMainMenu();
-            
-            
+            SortedDictionary<string, double> arguments = Interface.GetArguments();
+            double x = Calculatons.FindRoot(arguments);
+            Console.WriteLine(x);
         }
     }
 }

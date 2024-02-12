@@ -20,17 +20,20 @@ namespace chordMethod {
             file,
             exit
         }
-        public static SortedDictionary<string, double> GiveMainMenu() {
+        public static void GiveMainMenu() {
+            Console.WriteLine("Выберите метод ввода данных:");
+            Console.WriteLine("1.Ручной ввод");
+            Console.WriteLine("2. Ввод из файла");
+            Console.WriteLine("3. Выход");
+            DivideLine();
+        }
+        public static SortedDictionary<string, double> GetArguments() {
             bool exitFlag = false;
             // Initialize 'arguments' with an empty dictionary to avoid CS0165.
             SortedDictionary<string, double> arguments = new SortedDictionary<string, double>();
 
             while (!exitFlag) {
-                Console.WriteLine("Выберите метод ввода данных:");
-                Console.WriteLine("1.Ручной ввод");
-                Console.WriteLine("2. Ввод из файла");
-                Console.WriteLine("3. Выход");
-                DivideLine();
+                GiveMainMenu();
 
                 if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= 3) {
                     MainMenuControls selection = (MainMenuControls)choice;
@@ -42,7 +45,11 @@ namespace chordMethod {
                                 { "a", GetDoubleInput("a") },
                                 { "b", GetDoubleInput("b") },
                                 { "c", GetDoubleInput("c") },
-                                { "d", GetDoubleInput("d") }
+                                { "d", GetDoubleInput("d") },
+                                { "x0", GetDoubleInput("x0 (минимальное значение)") },
+                                { "x1", GetDoubleInput("x1 (максимальное значение)") },
+                                { "e", GetDoubleInput("e (точность функции)") }
+
                             };
                             exitFlag = true;
                             break;
