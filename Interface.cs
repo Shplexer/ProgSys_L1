@@ -1,8 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
-
-namespace chordMethod {
+﻿namespace chordMethod {
     class Interface {
 
         private static void DivideLine() {
@@ -29,7 +25,6 @@ namespace chordMethod {
         }
         public static SortedDictionary<string, double> GetArguments() {
             bool exitFlag = false;
-            // Initialize 'arguments' with an empty dictionary to avoid CS0165.
             SortedDictionary<string, double> arguments = new SortedDictionary<string, double>();
 
             while (!exitFlag) {
@@ -48,10 +43,10 @@ namespace chordMethod {
                                 { "d", GetDoubleInput("d") },
                                 { "x0", GetDoubleInput("x0 (минимальное значение)") },
                                 { "x1", GetDoubleInput("x1 (максимальное значение)") },
-                                { "e", GetDoubleInput("e (точность функции)") }
-
+                                { "e", 1e-6 }
                             };
                             exitFlag = true;
+
                             break;
                         case MainMenuControls.file:
                             Console.WriteLine("You selected Option 2.");
@@ -60,10 +55,10 @@ namespace chordMethod {
                             exitFlag = true;
                             break;
                         case MainMenuControls.exit:
-                            Console.WriteLine("Exiting the menu.");
+                            Console.WriteLine("Exiting...");
                             // If exiting, 'arguments' could be returned as an empty dictionary, or
                             // you could choose to return null or a different value if that's appropriate for your application.
-                            exitFlag = true;
+                            System.Environment.Exit(0);
                             break;
                         default:
                             break;
@@ -71,15 +66,22 @@ namespace chordMethod {
                 }
                 else {
                     Console.WriteLine("Ошибка ввода! Попробуйте снова.");
-                    // No need to set exitFlag here; it's already false.
+                    exitFlag = false;
+                }
+                if (arguments["a"] == 0 && arguments["b"] == 0 && arguments["c"] == 0) {
+                    Console.WriteLine("Данное уравнение не имеет корней! Попробуйте снова.");
+                    exitFlag = false;
+                }
+                else {
+                    exitFlag = true;
                 }
             }
-            return arguments; 
+            return arguments;
         }
         public static void GiveInputInstructions() {
             Console.WriteLine("Введите аргументы для уравнения типа: ax^3 + bx^2 + cx + d");
             Console.WriteLine("Для использования знака минуса введите аргументы с отрицательным значением");
-            Console.WriteLine("Пример: x^3 - 18x - 83 = 0");
+            Console.WriteLine("Пример: x^3 - 0.2x^2 + 0.5x +1.5 = 0");
         }
         public static double GetIntInput() {
             bool errFlag;
@@ -110,7 +112,7 @@ namespace chordMethod {
                 if (errFlag) {
                     Console.WriteLine("Ошибка ввода! Попробуйте снова.");
                 }
-                
+
             } while (errFlag);
 
             return number;

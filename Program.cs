@@ -8,8 +8,14 @@ namespace chordMethod {
 
             Interface.GiveWelcomeMessage();
             SortedDictionary<string, double> arguments = Interface.GetArguments();
-            double x = Calculatons.FindRoot(arguments);
-            Console.WriteLine(x);
+            try {
+                double x = Calculatons.FindRoot(arguments);
+                Console.WriteLine(x);
+            }
+            catch (ArgumentException e) {
+                Console.WriteLine(e.Message);
+            }
+                
         }
     }
 }
