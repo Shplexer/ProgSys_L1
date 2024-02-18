@@ -14,12 +14,14 @@
         enum MainMenuControls {
             manual = 1,
             file,
+            test,
             exit
         }
         public static void GiveMainMenu() {
             Console.WriteLine("Выберите метод ввода данных:");
-            Console.WriteLine("1.Ручной ввод");
+            Console.WriteLine("1. Ручной ввод");
             Console.WriteLine("2. Ввод из файла");
+            Console.WriteLine("3. Тестирование");
             Console.WriteLine("3. Выход");
             DivideLine();
         }
@@ -41,9 +43,9 @@
                                 { "b", GetDoubleInput("b") },
                                 { "c", GetDoubleInput("c") },
                                 { "d", GetDoubleInput("d") },
-                                { "x0", GetDoubleInput("x0 (минимальное значение)") },
-                                { "x1", GetDoubleInput("x1 (максимальное значение)") },
-                                { "e", 1e-6 }
+                                { "x0", GetDoubleInput("x0") },
+                                { "x1", GetDoubleInput("x1") },
+                                { "e", GetDoubleInput("e (точность)") }
                             };
                             exitFlag = true;
 
@@ -53,6 +55,9 @@
                             // Add your code for Option 2 here
                             // Ensure 'arguments' is assigned appropriately after file input processing.
                             exitFlag = true;
+                            break;
+                        case MainMenuControls.test:
+                            GiveTestMessage();
                             break;
                         case MainMenuControls.exit:
                             Console.WriteLine("Exiting...");
@@ -81,7 +86,7 @@
         public static void GiveInputInstructions() {
             Console.WriteLine("Введите аргументы для уравнения типа: ax^3 + bx^2 + cx + d");
             Console.WriteLine("Для использования знака минуса введите аргументы с отрицательным значением");
-            Console.WriteLine("Пример: x^3 - 0.2x^2 + 0.5x +1.5 = 0");
+            Console.WriteLine("Пример: x^3 - 0.2x^2 + 0.5x + 1.5 = 0");
         }
         public static double GetIntInput() {
             bool errFlag;
@@ -106,9 +111,6 @@
                 string? userInput = Console.ReadLine();
                 errFlag = !double.TryParse(userInput?.Replace(',', '.'), out number);
 
-                //Console.WriteLine($"Current culture: {CultureInfo.CurrentCulture.Name}");
-                //Console.WriteLine(number);
-
                 if (errFlag) {
                     Console.WriteLine("Ошибка ввода! Попробуйте снова.");
                 }
@@ -116,6 +118,19 @@
             } while (errFlag);
 
             return number;
+        }
+        private static void GiveTestMessage() {
+            Console.WriteLine("Запускаю тестирование");
+        }
+        enum resultChoiceControls {
+            save = 1,
+            restart = 2,
+            exit = 3
+        }
+        private static bool resultChoice() {
+            bool exitFlag;
+
+            return exitFlag;
         }
 
     }
