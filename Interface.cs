@@ -1,4 +1,15 @@
 ﻿namespace chordMethod {
+    enum saveChoiceControls {
+        save = 1,
+        cancel,
+        exit
+    }
+    enum MainMenuControls {
+        manual = 1,
+        file,
+        test,
+        exit
+    }
     class Interface {
 
         private static void DivideLine() {
@@ -10,12 +21,6 @@
             Console.WriteLine("Вариант №3 работы №1 был выполнен студентом группы 423 Ореховым Даниилом.");
             Console.WriteLine("Задание: Для заданной функции на заданном интервале найти требуемое значение методом хорд.");
             DivideLine();
-        }
-        enum MainMenuControls {
-            manual = 1,
-            file,
-            test,
-            exit
         }
         public static void GiveMainMenu() {
             Console.WriteLine("Выберите метод ввода данных:");
@@ -51,19 +56,16 @@
 
                             break;
                         case MainMenuControls.file:
-                            Console.WriteLine("You selected Option 2.");
-                            // Add your code for Option 2 here
-                            // Ensure 'arguments' is assigned appropriately after file input processing.
+                            //Console.WriteLine("You selected Option 2.");
+
                             exitFlag = true;
                             break;
                         case MainMenuControls.test:
                             GiveTestMessage();
                             break;
                         case MainMenuControls.exit:
-                            Console.WriteLine("Exiting...");
-                            // If exiting, 'arguments' could be returned as an empty dictionary, or
-                            // you could choose to return null or a different value if that's appropriate for your application.
-                            System.Environment.Exit(0);
+                            Console.WriteLine("Выход...");
+                            Environment.Exit(0);
                             break;
                         default:
                             break;
@@ -122,15 +124,40 @@
         private static void GiveTestMessage() {
             Console.WriteLine("Запускаю тестирование");
         }
-        enum resultChoiceControls {
-            save = 1,
-            restart = 2,
-            exit = 3
-        }
-        private static bool resultChoice() {
-            bool exitFlag;
 
-            return exitFlag;
+        public static bool saveChoice() {
+            bool saveFlag = false;
+            bool errFlag = false;
+            Console.WriteLine("Сохранить результат?");
+            Console.WriteLine("1. Да");
+            Console.WriteLine("2. Нет");
+            Console.WriteLine("3. Выход из программы");
+            do {
+                if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= 3) {
+                    saveChoiceControls selection = (saveChoiceControls)choice;
+                    switch (selection) {
+                        case saveChoiceControls.save:
+                            bool isNameValid = File.FileUploadValidation();
+                            if (isNameValid) {
+
+                            }
+                        break;
+                        case  saveChoiceControls.cancel:
+
+                        break;
+                        case saveChoiceControls.exit:
+
+                        break;
+                        default:
+                        break;
+                    }
+                }
+                else {
+                    Console.WriteLine("Ошибка ввода! Попробуйте снова.");
+                    errFlag = true;
+                }
+            } while (errFlag);
+            return saveFlag;
         }
 
     }

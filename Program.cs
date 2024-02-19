@@ -11,6 +11,7 @@ namespace chordMethod {
             SortedDictionary<string, double> arguments = Interface.GetArguments();
             double x = Calculatons.FindRoot(arguments);
             Console.WriteLine(x);
+            bool kek = Interface.saveChoice();
 
         }
     }
