@@ -9,9 +9,9 @@ namespace chordMethod {
             Interface.GiveWelcomeMessage();
 
             SortedDictionary<string, double> arguments = Interface.GetArguments();
-            double x = Calculatons.FindRoot(arguments);
+            string x = Calculatons.FindRoot(arguments);
             Console.WriteLine(x);
-            bool kek = Interface.saveChoice();
+            bool kek = Interface.saveChoice(x, arguments);
 
         }
     }

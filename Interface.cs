@@ -125,8 +125,7 @@
             Console.WriteLine("Запускаю тестирование");
         }
 
-        public static bool saveChoice() {
-            bool saveFlag = false;
+        public static void saveChoice(string result, SortedDictionary<string, double> arguments) {
             bool errFlag = false;
             Console.WriteLine("Сохранить результат?");
             Console.WriteLine("1. Да");
@@ -137,19 +136,19 @@
                     saveChoiceControls selection = (saveChoiceControls)choice;
                     switch (selection) {
                         case saveChoiceControls.save:
-                            bool isNameValid = File.FileUploadValidation();
+                            (bool isNameValid, string filePath) = Files.FileUploadValidation();
                             if (isNameValid) {
-
+                                Files.FileUpload(filePath, result, arguments);
                             }
-                        break;
+                            break;
                         case  saveChoiceControls.cancel:
 
-                        break;
+                            break;
                         case saveChoiceControls.exit:
 
-                        break;
+                            break;
                         default:
-                        break;
+                            break;
                     }
                 }
                 else {
@@ -157,7 +156,6 @@
                     errFlag = true;
                 }
             } while (errFlag);
-            return saveFlag;
         }
 
     }
