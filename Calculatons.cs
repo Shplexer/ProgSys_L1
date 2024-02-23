@@ -40,7 +40,7 @@ namespace chordMethod {
 
             int digitsAfterDecimal = countDigitsAfterDecimalPoint(fault);
 
-            Console.WriteLine($"Number of digits after the decimal point: {digitsAfterDecimal}");
+            //Console.WriteLine($"Number of digits after the decimal point: {digitsAfterDecimal}");
 
             // Начать с предположения, что корень находится в середине интервала.
             double solution = (leftBorder + rightBorder) / 2;
@@ -48,25 +48,10 @@ namespace chordMethod {
                 return "На интервале нет корня";
             }
             else {
-
-                // Проверить знак второй производной в середине интервала.
-                // bool isddFPositive = ddF(solution, arguments) >= 0;
-                // Объявить функцию, которая будет использоваться для обновления решения.
                 Func<double, double> usedFtion;
-
-                // Если вторая производная положительна, использовать одну форму функции обновления.
-                //if (isddFPositive) {
-                //Console.WriteLine(isddFPositive);
-                //usedFtion = (double x) => x - F(x, arguments) * (rightBorder - x) / (F(rightBorder, arguments) - F(x, arguments));
-                //}
-                // Если вторая производная отрицательна, использовать другую форму функции обновления.
-                //else {
-                //    Console.WriteLine(isddFPositive);
                 usedFtion = (double x) => leftBorder - F(leftBorder, arguments) * (x - leftBorder) /
                                                (F(x, arguments) - F(leftBorder, arguments));
-                //}
 
-                // Продолжать итерации до тех пор, пока значение функции в точке решения не будет в пределах желаемого интервала ошибок.
                 while (Math.Abs(F(solution, arguments)) > fault) {
                     solution = usedFtion(solution);
                     Console.WriteLine(Math.Abs(F(solution, arguments)) + " " + fault + " " + solution.ToString($"F{digitsAfterDecimal}"));

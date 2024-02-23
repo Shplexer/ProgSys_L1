@@ -12,7 +12,7 @@
     }
     class Interface {
 
-        private static void DivideLine() {
+        public static void DivideLine() {
             Console.WriteLine("==========================================================================================================");
         }
         public static void GiveWelcomeMessage() {
@@ -27,7 +27,7 @@
             Console.WriteLine("1. Ручной ввод");
             Console.WriteLine("2. Ввод из файла");
             Console.WriteLine("3. Тестирование");
-            Console.WriteLine("3. Выход");
+            Console.WriteLine("4. Выход");
             DivideLine();
         }
         public static SortedDictionary<string, double> GetArguments() {
@@ -37,13 +37,12 @@
             while (!exitFlag) {
                 GiveMainMenu();
 
-                if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= 3) {
-                    MainMenuControls selection = (MainMenuControls)choice;
+                MainMenuControls selection = (MainMenuControls)GetIntInput();
 
-                    switch (selection) {
-                        case MainMenuControls.manual:
-                            GiveInputInstructions();
-                            arguments = new SortedDictionary<string, double> {
+                switch (selection) {
+                    case MainMenuControls.manual:
+                        GiveInputInstructions();
+                        arguments = new SortedDictionary<string, double> {
                                 { "a", GetDoubleInput("a") },
                                 { "b", GetDoubleInput("b") },
                                 { "c", GetDoubleInput("c") },
@@ -52,31 +51,39 @@
                                 { "x1", GetDoubleInput("x1") },
                                 { "e", GetDoubleInput("e (точность)") }
                             };
-                            exitFlag = true;
+                        exitFlag = true;
 
-                            break;
-                        case MainMenuControls.file:
-                            //Console.WriteLine("You selected Option 2.");
+                        break;
+                    case MainMenuControls.file:
+                        //Console.WriteLine("You selected Option 2.");
+                        string fileName = Files.FileDownloadValidation();
+                        if(fileName == "~") {
+                            exitFlag = false;
+                            continue;
+                        }
+                        arguments = Files.FileDownload(fileName);
+                        exitFlag = true;
+                        break;
+                    case MainMenuControls.test:
+                        Test.TestFindRootFindsCorrectRoot();
+                        exitFlag = false;
+                        continue;
+                    case MainMenuControls.exit:
+                        Console.WriteLine("Выход...");
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.WriteLine("Ошибка ввода! Попробуйте снова.");
+                        exitFlag = false;
+                        continue;
+                }
 
-                            exitFlag = true;
-                            break;
-                        case MainMenuControls.test:
-                            GiveTestMessage();
-                            break;
-                        case MainMenuControls.exit:
-                            Console.WriteLine("Выход...");
-                            Environment.Exit(0);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else {
-                    Console.WriteLine("Ошибка ввода! Попробуйте снова.");
-                    exitFlag = false;
-                }
                 if (arguments["a"] == 0 && arguments["b"] == 0 && arguments["c"] == 0) {
                     Console.WriteLine("Данное уравнение не имеет корней! Попробуйте снова.");
+                    exitFlag = false;
+                }
+                else if (arguments["x0"] >= arguments["x1"] ) {
+                    Console.WriteLine("Некорректно введен интервал! Попробуйте снова.");
                     exitFlag = false;
                 }
                 else {
@@ -90,7 +97,7 @@
             Console.WriteLine("Для использования знака минуса введите аргументы с отрицательным значением");
             Console.WriteLine("Пример: x^3 - 0.2x^2 + 0.5x + 1.5 = 0");
         }
-        public static double GetIntInput() {
+        public static int GetIntInput() {
             bool errFlag;
             int number;
             do {
@@ -121,9 +128,6 @@
 
             return number;
         }
-        private static void GiveTestMessage() {
-            Console.WriteLine("Запускаю тестирование");
-        }
 
         public static void saveChoice(string result, SortedDictionary<string, double> arguments) {
             bool errFlag = false;
@@ -132,28 +136,24 @@
             Console.WriteLine("2. Нет");
             Console.WriteLine("3. Выход из программы");
             do {
-                if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= 3) {
-                    saveChoiceControls selection = (saveChoiceControls)choice;
-                    switch (selection) {
-                        case saveChoiceControls.save:
-                            (bool isNameValid, string filePath) = Files.FileUploadValidation();
-                            if (isNameValid) {
-                                Files.FileUpload(filePath, result, arguments);
-                            }
-                            break;
-                        case  saveChoiceControls.cancel:
+                saveChoiceControls selection = (saveChoiceControls)GetIntInput();
+                switch (selection) {
+                    case saveChoiceControls.save:
+                        (bool isNameValid, string filePath) = Files.FileUploadValidation();
+                        if (isNameValid) {
+                            Files.FileUpload(filePath, result, arguments);
+                        }
+                        break;
+                    case saveChoiceControls.cancel:
 
-                            break;
-                        case saveChoiceControls.exit:
-
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else {
-                    Console.WriteLine("Ошибка ввода! Попробуйте снова.");
-                    errFlag = true;
+                        break;
+                    case saveChoiceControls.exit:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.WriteLine("Ошибка ввода! Попробуйте снова.");
+                        errFlag = true;
+                        break;
                 }
             } while (errFlag);
         }
