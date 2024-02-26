@@ -1,5 +1,5 @@
 ﻿namespace chordMethod {
-    enum saveChoiceControls {
+    enum SaveChoiceControls {
         save = 1,
         cancel,
         exit
@@ -11,7 +11,6 @@
         exit
     }
     class Interface {
-
         public static void DivideLine() {
             Console.WriteLine("==========================================================================================================");
         }
@@ -22,7 +21,7 @@
             Console.WriteLine("Задание: Для заданной функции на заданном интервале найти требуемое значение методом хорд.");
             DivideLine();
         }
-        public static void GiveMainMenu() {
+        private static void GiveMainMenu() {
             Console.WriteLine("Выберите метод ввода данных:");
             Console.WriteLine("1. Ручной ввод");
             Console.WriteLine("2. Ввод из файла");
@@ -82,7 +81,7 @@
                     Console.WriteLine("Данное уравнение не имеет корней! Попробуйте снова.");
                     exitFlag = false;
                 }
-                else if (arguments["x0"] >= arguments["x1"] ) {
+                else if (arguments["x0"] >= arguments["x1"]) {
                     Console.WriteLine("Некорректно введен интервал! Попробуйте снова.");
                     exitFlag = false;
                 }
@@ -92,7 +91,7 @@
             }
             return arguments;
         }
-        public static void GiveInputInstructions() {
+        private static void GiveInputInstructions() {
             Console.WriteLine("Введите аргументы для уравнения типа: ax^3 + bx^2 + cx + d");
             Console.WriteLine("Для использования знака минуса введите аргументы с отрицательным значением");
             Console.WriteLine("Пример: x^3 - 0.2x^2 + 0.5x + 1.5 = 0");
@@ -112,7 +111,7 @@
 
             return number;
         }
-        public static double GetDoubleInput(string inputName) {
+        private static double GetDoubleInput(string inputName) {
             bool errFlag;
             double number;
             do {
@@ -128,26 +127,25 @@
 
             return number;
         }
-
-        public static void saveChoice(string result, SortedDictionary<string, double> arguments) {
+        public static void SaveChoice(string result, SortedDictionary<string, double> arguments) {
             bool errFlag = false;
             Console.WriteLine("Сохранить результат?");
             Console.WriteLine("1. Да");
             Console.WriteLine("2. Нет");
             Console.WriteLine("3. Выход из программы");
             do {
-                saveChoiceControls selection = (saveChoiceControls)GetIntInput();
+                SaveChoiceControls selection = (SaveChoiceControls)GetIntInput();
                 switch (selection) {
-                    case saveChoiceControls.save:
+                    case SaveChoiceControls.save:
                         (bool isNameValid, string filePath) = Files.FileUploadValidation();
                         if (isNameValid) {
                             Files.FileUpload(filePath, result, arguments);
                         }
                         break;
-                    case saveChoiceControls.cancel:
+                    case SaveChoiceControls.cancel:
 
                         break;
-                    case saveChoiceControls.exit:
+                    case SaveChoiceControls.exit:
                         Environment.Exit(0);
                         break;
                     default:
@@ -157,6 +155,5 @@
                 }
             } while (errFlag);
         }
-
     }
 }

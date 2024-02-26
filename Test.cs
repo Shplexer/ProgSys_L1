@@ -14,7 +14,7 @@ namespace chordMethod {
                 ["d"] = -6    
             };
 
-            const double expectedRootDouble = 2.0000; // Expected root, rounded to the nearest integer for simplicity
+            const double expectedRootDouble = 2.0000;
             
             string expectedRoot = expectedRootDouble.ToString("F4");
             string actualRoot = Calculatons.FindRoot(arguments);

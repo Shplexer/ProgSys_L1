@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace chordMethod {
     class Program {
-        static void Main() {
+        public static void Main() {
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
             while (true) {
                 Interface.GiveWelcomeMessage();
@@ -15,7 +15,7 @@ namespace chordMethod {
                 Console.WriteLine($"Результат: {x}");
                 Interface.DivideLine();
                 
-                Interface.saveChoice(x, arguments);
+                Interface.SaveChoice(x, arguments);
             }
         }
     }
